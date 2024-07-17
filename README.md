@@ -19,7 +19,7 @@
 	- My results can be found in the file ResultsMultiTree.pdf.
 	- I discuss these results at the end of this README file.
 - My second additional assignment in which I implemented a Church encoding for lists.
-	-The implementation can be found in the file list.hs.
+	- The implementation can be found in the file list.hs.
 		- To compile this file, containers should be installed and added to the environment file. This can be achieved by running "cabal install --lib containers".
   	- An explanation of this implementation can be found in the file ListChurchEncodingExplanation.pdf. I heavily recommend going over the implementation and this explanation file together. I further explain this is the explanation file.
 

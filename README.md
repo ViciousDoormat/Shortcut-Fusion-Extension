@@ -1,5 +1,5 @@
 # This folder contains the following:
-- This README.txt, which contains:
+- This README, which contains:
 	- This overview of files in the project folder.
 	- A comparison between my replicated results and the results of the paper.
 	- A discussion of my MultiTree results.

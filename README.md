@@ -1,4 +1,4 @@
-# This folder contains the following:
+# This folder contains the following
 - This README, which contains:
 	- This overview of files in the project folder.
 	- A comparison between my replicated results and the results of the paper.
@@ -24,7 +24,7 @@
   	- An explanation of this implementation can be found in the file ListChurchEncodingExplanation.pdf. I heavily recommend going over the implementation and this explanation file together. I further explain this is the explanation file.
 
 
-## Comparison between my replicated results and the results of the paper:
+## Comparison between my replicated results and the results of the paper
 I have mostly been able to replicate the results of the paper. 
 I have run the results using Windows 11 on an AMD Ryzen 9 7900X 12-Core Processor of 4.7 GHz, with a 32GB RAM and a 64MB L3 cache. I used GHC version 9.4.8.
 The single function benchmarks are very similar, showing the overhead of the encodings for singular functions, especially for append, which corresponds with the paper.
@@ -35,7 +35,7 @@ Lastly, the time it takes for my functions to run is significantly faster than i
 and my setup being more powerful than the one that was used by the paper. It can also have to do with the benchmarking tool I used, namely Criterion, as I have no clue what tool the paper used.
 
 
-## Discussion of my MultiTree results:
+## Discussion of my MultiTree results
 I have run the results using Windows 11 on an AMD Ryzen 9 7900X 12-Core Processor of 4.7 GHz, with a 32GB RAM and a 64MB L3 cache. I used GHC version 9.4.8.
 The single function results are very similar to the single function results belonging to my replicated results.
 An interesting observation is that the Church-encoded small pipelines often perform closely to and sometimes better than the normal variants and CoChurch-encoded variants.
@@ -44,7 +44,7 @@ Again, however, the CoChurch encoding is often very efficient even for small pip
 The large pipeline benchmarks again show the efficiency of Church and CoChurch encodings, as in the pipeline benchmark, both the Church and CoChurch encoding perform better, and in the append pipeline benchmark, the Church encoding performs better.
 Also, the results of the large append pipeline do show the overhead Church and CoChurch encodings pose when unfused.
 
-## future research idea:
+## future research idea
 I implemented the MultiTree structure using standard Haskell lists. It could be interesting to implement them using a (Co)Church-encoded variant of lists.
 This would create a structure that is (Co)Church encoded, and is made using another (Co)Church-encoded structure.
 I tried this out, but the limitation of the map function I discuss in ListChurchEncodingExplanation.pdf makes this impossible, as the functions over MultiTrees require a lot of mapping.

@@ -4,30 +4,24 @@
 	- A comparison between my replicated results and the results of the paper.
 	- A discussion of my MultiTree results.
 	- A future research suggestion.
-- The original paper this project was based on. This is the file ThePaper.pdf.
+- The original paper on which this project was based. This is the file ThePaper.pdf.
 - My main results. Namely, replicating the results of the paper.
 	- My implementation can be found in the file main.hs. 
-	   To compile this file, criterion and deepseq should be installed and added to environment file.
-	   This can be achieved by running "cabal install --lib criterion" and "cabal install --lib deepseq".
-	   This file needs to be compiled with the O flag; ghc -O main.hs. 
-	   Otherwise, the results will not be duplicated as the defined Haskell optimization rules will not be used.
-	b) My results can be found in the file ReplicatedResults.pdf.
-	c) I compare my results to the results of the paper after this section of this README file.
+		- To compile this file, criterion and deepseq should be installed and added to the environment file. This can be achieved by running "cabal install --lib criterion" and "cabal install --lib deepseq".
+	   	- This file should be compiled with the O flag; ghc -O main.hs. Otherwise, the results will not be duplicated as the defined Haskell optimization rules will not be used.
+	- My results can be found in the file ReplicatedResults.pdf.
+	- I compare my results to the results of the paper after this section of this README file.
 - My first additional assignment in which I implemented a Church and CoChurch encoding for MultiTrees.
-   MultiTrees here are trees with any number of children, and values stored at the leafs.
+   MultiTrees here are trees with any number of children, and values stored at the leaves.
 	- The implementation can be found in the file multitree.hs.
-	   To compile this file, criterion and deepseq should again be installed and added to environment file.
-	   This file needs to be compiled with the O flag; ghc -O multitree.hs. 
-	   Otherwise, the results will not be duplicated as the defined Haskell optimization rules will not be used.
+		- To compile this file, criterion and deepseq should again be installed and added to the environment file.
+		- This file should be compiled with the O flag; ghc -O multitree.hs. Otherwise, the results will not be duplicated as the defined Haskell optimization rules will not be used.
 	- My results can be found in the file ResultsMultiTree.pdf.
 	- I discuss these results at the end of this README file.
 - My second additional assignment in which I implemented a Church encoding for lists.
 	-The implementation can be found in the file list.hs.
-	   To compile this file, containers should be installed and added to environment file.
-	   This can be achieved by running "cabal install --lib containers".
-  	- An explanation of this implementation can be found in the file ListChurchEncodingExplanation.pdf
-	   I heavily recommend to go over the implementation and this explanation file together.
-	   I further explain this is the explanation file.
+		- To compile this file, containers should be installed and added to the environment file. This can be achieved by running "cabal install --lib containers".
+  	- An explanation of this implementation can be found in the file ListChurchEncodingExplanation.pdf. I heavily recommend going over the implementation and this explanation file together. I further explain this is the explanation file.
 
 
 ## Comparison between my replicated results and the results of the paper:
@@ -44,13 +38,13 @@ and my setup being more powerful than the one that was used by the paper. It can
 ## Discussion of my MultiTree results:
 I have run the results using Windows 11 on an AMD Ryzen 9 7900X 12-Core Processor of 4.7 GHz, with a 32GB RAM and a 64MB L3 cache. I used GHC version 9.4.8.
 The single function results are very similar to the single function results belonging to my replicated results.
-An interesting observation is that the Church encoded small pipelines often perform closely to and sometimes beter than the normal variants and CoChurch encoded variants.
-This is different from Church encoded small pipeline results of the replicated results, as there these Church encoded pipelines perform more often (a lot) worse.
+An interesting observation is that the Church-encoded small pipelines often perform closely to and sometimes better than the normal variants and CoChurch-encoded variants.
+This is different from Church-encoded small pipeline results of the replicated results, as there these Church-encoded pipelines perform more often (a lot) worse.
 Again, however, the CoChurch encoding is often very efficient even for small pipelines, which corresponds with the paper and replicated results.
-The large pipeline benchmarks again shows the efficiency of Church and CoChurch encodings, as in the pipeline benchmark, both the Church and CoChurch encoding perform better, and in the append pipeline benchmark, the Church encoding performs better.
+The large pipeline benchmarks again show the efficiency of Church and CoChurch encodings, as in the pipeline benchmark, both the Church and CoChurch encoding perform better, and in the append pipeline benchmark, the Church encoding performs better.
 Also, the results of the large append pipeline do show the overhead Church and CoChurch encodings pose when unfused.
 
 ## future research idea:
-I implemented the MultiTree structure using standard Haskell lists. It could be interesting to implement them using a (Co)Church encoded variant of lists.
-This would create a structure that is (Co)Church encoded, and is made using another (Co)Church encoded structure.
+I implemented the MultiTree structure using standard Haskell lists. It could be interesting to implement them using a (Co)Church-encoded variant of lists.
+This would create a structure that is (Co)Church encoded, and is made using another (Co)Church-encoded structure.
 I tried this out, but the limitation of the map function I discuss in ListChurchEncodingExplanation.pdf makes this impossible, as the functions over MultiTrees require a lot of mapping.

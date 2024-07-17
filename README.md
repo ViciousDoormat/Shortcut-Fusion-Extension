@@ -1,10 +1,11 @@
+This is an implementation, benchmark, and extension of A Library Writer’s Guide to Shortcut Fusion by Thomas Harper (https://www.cs.ox.ac.uk/files/4458/p47-harper.pdf)
+
 # This folder contains the following
 - This README, which contains:
 	- This overview of files in the project folder.
 	- A comparison between my replicated results and the results of the paper.
 	- A discussion of my MultiTree results.
 	- A future research suggestion.
-- The original paper on which this project was based. This is the file ThePaper.pdf.
 - My main results. Namely, replicating the results of the paper.
 	- My implementation can be found in the file main.hs. 
 		- To compile this file, criterion and deepseq should be installed and added to the environment file. This can be achieved by running "cabal install --lib criterion" and "cabal install --lib deepseq".

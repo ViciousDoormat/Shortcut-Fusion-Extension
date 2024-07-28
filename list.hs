@@ -2,23 +2,71 @@
 
 {-# LANGUAGE QuantifiedConstraints #-}
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE IncoherentInstances #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveAnyClass #-}
+
 
 import Data.Sequence
+import GHC.Generics (Generic, Generic1)
+import Control.DeepSeq
+import Criterion.Main
 
-main :: IO ()
-main = do 
-    print $ maximum' $ reverse' $ filter' even (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No)
-    print $ filter' even $ append' (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No) (between (6,10))
-    print $ toSeq $ filter' even $ append' (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No) (between (6,10))
-    print $ toSeq $ reverse' $ between (1,5)
-    print $ filter' even $ map' (+1) $ filter' even $ between (1,5)
+-- main :: IO ()
+-- main = do 
+--   print $ reverse' $ filter' even (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No)
+--   print $ sum' $ reverse' $ filter' even $ between (1,5)
+--   print $ append' (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No) (reverse' $ between (6,10))
+--   print $ toSeq $ append' (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No) (reverse' $ between (6,10))
+--   print $ reverse' $ filter' even $ map' (+1) (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No)
+--   print $ reverse' $ map' (+1) $ filter' even (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No)
+--   print $ map' even $ reverse' $ filter' even (Two 1 $ Two 2 $ Two 3 $ Two 4 $ Two 5 No)
+
+main = defaultMain [
+  bgroup "pipeline" [ bench "normal"   $ nf (sum_  . map_  (+1) . filter_  odd . between_)   (1,10000)
+                    , bench "chirch"   $ nf (sum'  . map'  (+1) . filter'  odd . between)  (1,10000)
+                     ],
+
+  bgroup "append pl" [ bench "normal"   $ nf sumApp    (1,10000)
+                     , bench "chirch"   $ nf sumApp'   (1,10000)
+                     ]  
+  ]
+
+--normal functions:
+
+sum_ No = 0
+sum_ (One x) = x
+sum_ (Two x xs) = x + sum_ xs
+
+map_ f No = No
+map_ f (One x) = One (f x)
+map_ f (Two x xs) = Two (f x) (map_ f xs)
+
+filter_ :: (Int -> Bool) -> List Int -> List Int
+filter_ p No = No
+filter_ p (One x) = if p x then One x else No
+filter_ p (Two x xs) = if p x then Two x (filter_ p xs) else filter_ p xs
+
+between_ (x,y)
+  | x > y  = No
+  | x == y = One x
+  | x < y  = Two x (between_ (x+1,y))
+
+append_ No ys = ys
+append_ (One x) ys = Two x ys
+append_ (Two x xs) ys = Two x (append_ xs ys)
+
+sumApp :: (Int, Int) -> Int
+sumApp (x,y) = sum_ $ append_ (between_ (x,y)) (between_ (x,y))
 
 --The main structure, its base functor, and church encoding
 --These parts can be defined without any problems
-data List a = No | One a | Two a (List a) deriving Show
+data List a = No | One a | Two a (List a) deriving (Generic, NFData, Show)
 data List_ a b = No_ | One_ a | Two_ a b 
 --Note that the Church encoding requires Usable a b
 newtype ListCh a = ListCh (forall b. Usable a b => (List_ a b -> b) -> b)
+
+--church functions:
 
 fold :: (List_ a b -> b) -> List a -> b
 fold a No = a No_
@@ -79,6 +127,8 @@ maximum' :: List Int -> Int
 maximum' = maximumCh . toCh
 {-# INLINE maximum' #-}
 
+sumApp' :: (Int, Int) -> Int
+sumApp' (x,y) = sum' $ append' (between (x,y)) (between (x,y))
 
 --The implementations of the transformers:
 
@@ -192,6 +242,11 @@ instance Usable a (Seq a) where
   oneStepFilter f v (x :<| Empty) = if f v then Two_ v (x :<| Empty) else One_ x
   oneStepFilter f v (x :<| xs) = if f v then Two_ v (x :<| xs) else Two_ x xs
 
+instance Usable Bool b => Usable Integer b where
+  oneStepFilter f x y = undefined
+  oneStepAppend = undefined
+  oneStepReverse x y = undefined
+
 --toSeq can be defined without any trouble, similarly to the consumers sum and maximum.
 ts :: List_ a (Seq a) -> Seq a
 ts No_ = Empty
@@ -216,8 +271,8 @@ toSeq = toSeqCh . toCh
 --(forall b. Usable c b => Usable a b). However, this poses a big limitation to the system.
 --A non-trivial case of this implication is when the mapping actually changes the type (e.g. even::Int->Bool).
 --In that case, Haskell cannot figure out the implication on its own.
---However, I have no clue how to prove this implication for these non-trivial cases myself.
---This means that map can only be used in cases where a == c (e.g. (+1)::Int->Int).
+--Thus we need to make instances for these cases ourselves, like the Usable Bool b => Usable Integer b instance above.
+--This did require me to add the IncoherentInstances pragma,
 mapCh :: (forall b. Usable c b => Usable a b) => (a -> c) -> ListCh a -> ListCh c
 mapCh f (ListCh g) = ListCh (\k -> g (k . m f)) 
 

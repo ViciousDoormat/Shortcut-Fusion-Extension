@@ -48,4 +48,5 @@ Also, the results of the large append pipeline do show the overhead Church and C
 ## future research idea
 I implemented the MultiTree structure using standard Haskell lists. It could be interesting to implement them using a (Co)Church-encoded variant of lists.
 This would create a structure that is (Co)Church encoded, and is made using another (Co)Church-encoded structure.
-I tried this out, but the limitation of the map function I discuss in ListChurchEncodingExplanation.pdf makes this impossible, as the functions over MultiTrees require a lot of mapping.
+This would thus make pipelines over the list in a multitree more efficient. However, this benefit would end when the multitree changes in between a pipeline over one of its lists.
+It could be interesting to research a potential structure that does not have this issue.

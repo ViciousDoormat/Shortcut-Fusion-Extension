@@ -12,14 +12,14 @@ This is an implementation, benchmark, and extension of A Library Writer’s Guid
 	   	- This file should be compiled with the O flag; ghc -O main.hs. Otherwise, the results will not be duplicated as the defined Haskell optimization rules will not be used.
 	- My results can be found in the file ReplicatedResults.pdf.
 	- I compare my results to the results of the paper after this section of this README file.
-- My first additional assignment in which I implemented a Church and CoChurch encoding for MultiTrees.
+- My first extension in which I implemented a Church and CoChurch encoding for MultiTrees.
    MultiTrees here are trees with any number of children, and values stored at the leaves.
 	- The implementation can be found in the file multitree.hs.
 		- To compile this file, criterion and deepseq should again be installed and added to the environment file.
 		- This file should be compiled with the O flag; ghc -O multitree.hs. Otherwise, the results will not be duplicated as the defined Haskell optimization rules will not be used.
 	- My results can be found in the file ResultsMultiTree.pdf.
 	- I discuss these results at the end of this README file.
-- My second additional assignment in which I implemented a Church encoding for lists.
+- My second extension in which I implemented a Church encoding for lists.
 	- The implementation can be found in the file list.hs.
 		- To compile this file, containers should be installed and added to the environment file. This can be achieved by running "cabal install --lib containers".
   	- An explanation of this implementation can be found in the file ListChurchEncodingExplanation.pdf. I heavily recommend going over the implementation and this explanation file together. I further explain this is the explanation file.

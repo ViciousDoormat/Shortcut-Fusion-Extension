@@ -1,6 +1,6 @@
 This is an implementation, benchmark, and extension of A Library Writer’s Guide to Shortcut Fusion by Thomas Harper (https://www.cs.ox.ac.uk/files/4458/p47-harper.pdf)
 
-# This folder contains the following
+# This repository contains the following
 - This README, which contains:
 	- This overview of files in the project folder.
 	- A comparison between my replicated results and the results of the paper.
